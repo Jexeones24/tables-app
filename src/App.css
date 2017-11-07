@@ -1,0 +1,9 @@
+.table {
+  border-spacing: 0.5rem;
+  border: solid thin black;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+}
