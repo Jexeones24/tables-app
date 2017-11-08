@@ -1,48 +1,28 @@
 import React, { Component } from 'react'
 import './App.css'
-// this import is gross - fix it
-import { fetchFifteenForQuarterMil, fetchTwentyForQuarterMil, fetchTwentyFiveForQuarterMil, fetchFifteenForHalfMil, fetchTwentyForHalfMil, fetchTwentyFiveForHalfMil, fetchFifteenForMil, fetchTwentyForMil, fetchTwentyFiveForMil } from './lib/policyService'
+import * as fetch from './lib/policyService'
 import Table from './Table'
 
 class App extends Component {
   state = {
-    // make this more reusable
-    termsInYears: ['', 15, 20, 25],
-    coverage: {
-      // 250000: {
-      //   15: 0,
-      //   20: 0,
-      //   25: 0
-      // },
-      // 500000: {
-      //   15: 0,
-      //   20: 0,
-      //   25: 0
-      // },
-      // 1000000: {
-      //   15: 0,
-      //   20: 0,
-      //   25: 0
-      // }
-    }
+    terms: ['', 15, 20, 25],
+    coverage: {}
   }
 
   sortByPremium = (arr) => arr.sort((a, b) => a.monthly_premium - b.monthly_premium)
 
   componentDidMount() {
-
     let fetches = [
-      fetchFifteenForQuarterMil(),
-      fetchTwentyForQuarterMil(),
-      fetchTwentyFiveForQuarterMil(),
-      fetchFifteenForHalfMil(),
-      fetchTwentyForHalfMil(),
-      fetchTwentyFiveForHalfMil(),
-      fetchFifteenForMil(),
-      fetchTwentyForMil(),
-      fetchTwentyFiveForMil()
+      fetch.quarterMil15(),
+      fetch.quarterMil20(),
+      fetch.quarterMil25(),
+      fetch.halfMil15(),
+      fetch.halfMil20(),
+      fetch.halfMil25(),
+      fetch.mil15(),
+      fetch.mil20(),
+      fetch.mil25()
     ]
-
     Promise.all(fetches)
       .then(policies => {
         let sorted = policies.map(f => this.sortByPremium(f))
@@ -59,18 +39,17 @@ class App extends Component {
               1000000: Object.assign({}, mil)
             })
           })
-        this.setState({coverage: newState}, () =>
-        {console.log('state:', this.state)}
-      )
-    })
-  }
+        this.setState({coverage: newState}, () => {console.log('state in App:', this.state)})
+      })
+    }
 
   render () {
     return (
       <div className='App'>
-        {Object.keys(this.state.coverage).length === 0 && this.state.coverage.constructor === Object ? [] : <Table
-          data={this.state.coverage}
-          termsInYears={this.state.termsInYears}
+        {Object.keys(this.state.coverage).length === 0 && this.state.coverage.constructor === Object ? [] :
+        <Table
+          policies={this.state.coverage}
+          terms={this.state.terms}
         />}
       </div>
     )

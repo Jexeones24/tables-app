@@ -1,53 +1,44 @@
-// 250K: 15
-export const fetchFifteenForQuarterMil = () => {
+export const quarterMil15 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=250000&term_in_years=15')
     .then(resp => resp.json())
 }
 
-// 250K: 20
-export const fetchTwentyForQuarterMil = () => {
+export const quarterMil20 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=250000&term_in_years=20')
     .then(resp => resp.json())
 }
 
-// 250K: 25
-export const fetchTwentyFiveForQuarterMil = () => {
+export const quarterMil25 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=250000&term_in_years=25')
     .then(resp => resp.json())
 }
 
-// 500K: 15
-export const fetchFifteenForHalfMil = () => {
+export const halfMil15 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=500000&term_in_years=15')
     .then(resp => resp.json())
 }
 
-// 500K: 20
-export const fetchTwentyForHalfMil = () => {
+export const halfMil20 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=500000&term_in_years=20')
     .then(resp => resp.json())
 }
 
-// 500K: 25
-export const fetchTwentyFiveForHalfMil = () => {
+export const halfMil25 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=500000&term_in_years=25')
     .then(resp => resp.json())
 }
 
-// 1MIL: 15
-export const fetchFifteenForMil = () => {
+export const mil15 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=1000000&term_in_years=15')
     .then(resp => resp.json())
 }
 
-// 1MIL: 20
-export const fetchTwentyForMil = () => {
+export const mil20 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=1000000&term_in_years=20')
     .then(resp => resp.json())
 }
 
-// 1MIL: 25
-export const fetchTwentyFiveForMil = () => {
+export const mil25 = () => {
   return fetch('https://fauxtuary.herokuapp.com/policies?coverage_amount=1000000&term_in_years=25')
     .then(resp => resp.json())
 }
