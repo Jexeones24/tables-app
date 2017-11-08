@@ -13,10 +13,10 @@ export default class Table extends Component {
   }
 
   render () {
-    const lowest = this.props.data.coverage[250000]
-    const mid = this.props.data.coverage[500000]
-    const highest = this.props.data.coverage[1000000]
-    console.log('props in table', this.props.data.coverage)
+    const lowest = this.props.data[250000]
+    const mid = this.props.data[500000]
+    const highest = this.props.data[1000000]
+    // console.log('props in table', this.props.data)
     return (
       <table className='table'>
         <tbody>

@@ -7,56 +7,57 @@ class App extends Component {
   state = {
     termsInYears: ['', 15, 20, 25],
     coverage: {
-      // 250000: {
-      //   15: null,
-      //   20: null,
-      //   25: null
-      // },
-      // 500000: {
-      //   15: null,
-      //   20: null,
-      //   25: null
-      // },
-      // 1000000: {
-      //   15: null,
-      //   20: null,
-      //   25: null
-      // }
+      250000: {
+        15: 0,
+        20: 0,
+        25: 0
+      },
+      500000: {
+        15: 0,
+        20: 0,
+        25: 0
+      },
+      1000000: {
+        15: 0,
+        20: 0,
+        25: 0
+      }
     }
   }
 
-  sortValues = (values) => values.sort((a, b) => a - b)
+  sortByPremium = (arr) => arr.sort((a, b) => a.monthly_premium - b.monthly_premium)
+
+  deepMerge = (amount, term, lowest) => {
+    let value = {[term]:lowest}
+    return Object.assign({}, this.state, {
+      coverage: Object.assign({}, this.state.coverage, {
+        [amount]: Object.assign({}, this.state.coverage[amount], {
+          ...value
+        })
+      })
+    })
+  }
 
   componentDidMount() {
-    fetchFifteenForQuarterMil()
-      .then(data => {
-        let premiums = data.map((d) => d.monthly_premium)
-        let lowest = this.sortValues(premiums)[0]
-        this.setState({ coverage: Object.assign({}, this.state.coverage, { coverage: Object.assign({}, this.state.coverage, { 250000: Object.assign({},    this.state.coverage[250000], { 15: lowest} ) } ) } )
-      })
-    })
-    fetchTwentyForQuarterMil()
-      .then(data => {
-        let premiums = data.map((d) => d.monthly_premium)
-        let previousTermValue = this.state.coverage.coverage
-        let lowest = this.sortValues(premiums)[0]
-        this.setState({ coverage: Object.assign({}, this.state.coverage, { coverage: Object.assign({}, this.state.coverage, { 250000: Object.assign({},    this.state.coverage[250000], { 15: previousTermValue[250000][15], 20: lowest} ) } ) } )
-      })
-    })
-    fetchTwentyFiveForQuarterMil()
-      .then(data => {
-        let premiums = data.map((d) => d.monthly_premium)
-        let previousTermValue = this.state.coverage.coverage
-        let lowest = this.sortValues(premiums)[0]
-        this.setState({ coverage: Object.assign({}, this.state.coverage, { coverage: Object.assign({}, this.state.coverage, { 250000: Object.assign({},    this.state.coverage[250000], { 15: previousTermValue[250000][15], 20: previousTermValue[250000][20], 25: lowest} ) } ) } )
-      })
-    })
-    fetchFifteenForHalfMil()
-      .then(data => {
-        let premiums = data.map((d) => d.monthly_premium)
-        let lowest = this.sortValues(premiums)[0]
+    let fetches = [
+      fetchFifteenForQuarterMil(),
+      fetchTwentyForQuarterMil(),
+      fetchTwentyFiveForQuarterMil(),
+      fetchFifteenForHalfMil(),
+      fetchTwentyForHalfMil(),
+      fetchTwentyFiveForHalfMil(),
+      fetchFifteenForMil(),
+      fetchTwentyForMil(),
+      fetchTwentyFiveForMil()
+    ]
+    Promise.all(fetches)
+      .then(fetches => {
+        console.log('all fetches:', fetches)
+        let sorted = fetches.map(f => this.sortByPremium(f))
+        console.log(sorted)
+        let lowest = sorted.map(s => s[0])
         console.log(lowest)
-    })
+      })
   }
 
   render () {
